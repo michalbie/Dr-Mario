@@ -1,0 +1,24 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#board-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+
+	#game-board {
+		display: grid;
+		grid-template-columns: repeat(8, 1fr);
+		grid-template-rows: repeat(16, 1fr);
+
+		.board-cell {
+			background-color: white;
+			border: 1px solid black;
+			width: 3em;
+			height: 3em;
+		}
+	}
+}
