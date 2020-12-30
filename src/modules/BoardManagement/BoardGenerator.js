@@ -8,11 +8,15 @@ const BoardGenerator = class BoardGenerator {
 	}
 
 	generateBoard = () => {
-		let cells = [];
+		let cells = new Array(16);
+		for (let i = 0; i < cells.length; i++) {
+			cells[i] = new Array(8);
+		}
+
 		for (let row = 0; row < this.height; row++) {
 			for (let column = 0; column < this.width; column++) {
 				let cell = this._createCell();
-				cells.push(cell);
+				cells[row][column] = cell;
 				this.boardContainer.appendChild(cell);
 			}
 		}
