@@ -43,7 +43,7 @@ const PillController = class PillController {
         this.pill.resetCellsColor();
         if (this.canBeMoved(newPosition)) {
             this.moveToPosition(newPosition, this.orientation);
-            setTimeout(this.moveDown, this.pill.currentFallingTime, "byMoving");
+            setTimeout(this.moveDown, this.pill.currentFallingTime, "byFalling");
         } else {
             this.pill.colorCells();
             this.pill.didFell = true;
@@ -199,10 +199,10 @@ const PillController = class PillController {
             this.currentPosition = this.getPillCellsPosition();
 
             if (byWhat == "byMoving") {
-                if (oldPosition.y1 < this.currentPosition.y1) {
+                if (oldPosition.y1 < this.currentPosition.y1 && this.yRange.max < 7) {
                     this.yRange.min += 1;
                     this.yRange.max += 1;
-                } else if (oldPosition.y1 > this.currentPosition.y1) {
+                } else if (oldPosition.y1 > this.currentPosition.y1 && this.yRange.min > 0) {
                     this.yRange.min -= 1;
                     this.yRange.max -= 1;
                 }

@@ -5,6 +5,7 @@ import { Pill } from "./Pill.js";
 const PillsManager = class PillsManager {
     constructor() {
         this._cells = [];
+        this.isBoostPressed = false;
     }
 
     set cells(newCells) {
@@ -19,38 +20,40 @@ const PillsManager = class PillsManager {
         document.addEventListener("keydown", (event) => {
             event.preventDefault();
             switch (event.key) {
+                case "ArrowDown":
+                case "S":
+                case "s":
+                    this.isBoostPressed = true;
+                    this.currentPill.currentFallingTime = 20;
+                    break;
+
                 case "ArrowLeft":
                 case "A":
                 case "a":
-                    this.currentPill.PillController.moveLeft();
+                    if (!this.isBoostPressed) this.currentPill.PillController.moveLeft();
                     break;
 
                 case "ArrowRight":
                 case "D":
                 case "d":
-                    this.currentPill.PillController.moveRight();
+                    if (!this.isBoostPressed) this.currentPill.PillController.moveRight();
                     break;
 
                 case "ArrowUp":
                 case "W":
                 case "w":
-                    this.currentPill.PillController.rotateLeft();
+                    if (!this.isBoostPressed) this.currentPill.PillController.rotateLeft();
                     break;
 
                 case "Shift":
-                    this.currentPill.PillController.rotateRight();
-                    break;
-
-                case "ArrowDown":
-                case "S":
-                case "s":
-                    this.currentPill.currentFallingTime = 20;
+                    if (!this.isBoostPressed) this.currentPill.PillController.rotateRight();
                     break;
             }
         });
 
         document.addEventListener("keyup", (event) => {
             if (event.key == "ArrowDown" || event.key == "S" || event.key == "s") {
+                this.isBoostPressed = false;
                 this.currentPill.currentFallingTime = this.currentPill.fallingTime;
             }
         });
