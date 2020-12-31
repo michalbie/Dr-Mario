@@ -28,7 +28,7 @@ const Pill = class Pill {
         const randomColors = [];
 
         for (let i = 0; i < 2; i++) {
-            let randomColorIndex = Math.abs(Math.round(Math.random() * colorVariations.length - 1));
+            let randomColorIndex = Math.floor(Math.random() * parseInt(colorVariations.length));
             randomColors.push(colorVariations[randomColorIndex]);
         }
         return randomColors;
