@@ -34,18 +34,24 @@ const PillsManager = class PillsManager {
 				case "ArrowUp":
 				case "W":
 				case "w":
-					console.log("skr3");
+					this.currentPill.rotateLeft();
 					break;
 
 				case "Shift":
-					console.log("skr4");
+					this.currentPill.rotateRight();
 					break;
 
 				case "ArrowDown":
 				case "S":
 				case "s":
-					console.log("skr5");
+					this.currentPill.currentFallingTime = 20;
 					break;
+			}
+		});
+
+		document.addEventListener("keyup", (event) => {
+			if (event.key == "ArrowDown" || event.key == "S" || event.key == "s") {
+				this.currentPill.currentFallingTime = this.currentPill.fallingTime;
 			}
 		});
 	};
