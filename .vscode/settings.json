@@ -1,4 +1,5 @@
 {
     "sass.disableAutoIndent": true,
-    "sass.format.deleteEmptyRows": false
+    "sass.format.deleteEmptyRows": false,
+    "prettier.printWidth": 300
 }
