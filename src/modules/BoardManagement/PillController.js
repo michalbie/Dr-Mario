@@ -215,8 +215,52 @@ const PillController = class PillController {
         if (x1 < 16 && x1 >= 0 && x2 < 16 && x2 >= 0 && y1 < 8 && y1 >= 0 && y2 < 8 && y2 >= 0) {
             if (this.pill._cells[x1][y1].style.backgroundColor == "" && this.pill._cells[x2][y2].style.backgroundColor == "") {
                 return true;
+            } else {
+                //console.log("cant move bcs: ", this.pill._cells[x1][y1].style.backgroundColor, this.pill._cells[x2][y2].style.backgroundColor);
             }
         }
+        return false;
+    };
+
+    fallDown = () => {
+        let fellOnce = false;
+        if (this.pill.pillCells.cell1 != null && this.pill.pillCells.cell2 == null) {
+            if (this.currentPosition.x1 < 15 && this.pill._cells[this.currentPosition.x1 + 1][this.currentPosition.y1].style.backgroundColor == "") {
+                this.pill.resetCellsColor();
+                this.pill.pillCells.cell1 = this.pill._cells[this.currentPosition.x1 + 1][this.currentPosition.y1];
+                this.currentPosition = this.getPillCellsPosition();
+                this.pill.colorCells();
+                fellOnce = true;
+            }
+        } else if (this.pill.pillCells.cell2 != null && this.pill.pillCells.cell1 == null) {
+            if (this.currentPosition.x2 < 15 && this.pill._cells[this.currentPosition.x2 + 1][this.currentPosition.y2].style.backgroundColor == "") {
+                this.pill.resetCellsColor();
+                this.pill.pillCells.cell2 = this.pill._cells[this.currentPosition.x2 + 1][this.currentPosition.y2];
+                this.currentPosition = this.getPillCellsPosition();
+                this.pill.colorCells();
+                fellOnce = true;
+            }
+        } else if (this.pill.pillCells.cell1 != null && this.pill.pillCells.cell2 != null) {
+            const newPosition = {
+                x1: this.currentPosition.x1 + 1,
+                y1: this.currentPosition.y1,
+                x2: this.currentPosition.x2 + 1,
+                y2: this.currentPosition.y2,
+            };
+            this.pill.resetCellsColor();
+            if (this.canBeMoved(newPosition)) {
+                this.pill.pillCells.cell1 = this.pill._cells[this.currentPosition.x1 + 1][this.currentPosition.y1];
+                this.pill.pillCells.cell2 = this.pill._cells[this.currentPosition.x2 + 1][this.currentPosition.y2];
+                this.currentPosition = this.getPillCellsPosition();
+                fellOnce = true;
+            }
+            this.pill.colorCells();
+        }
+
+        if (fellOnce) {
+            return true;
+        }
+
         return false;
     };
 

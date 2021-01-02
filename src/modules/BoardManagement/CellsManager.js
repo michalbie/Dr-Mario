@@ -2,12 +2,15 @@ import { Pill } from "./Pill.js";
 
 ("use strict");
 
-const PillsManager = class PillsManager {
+const CellsManager = class CellsManager {
     constructor() {
         this._cells = [];
         this.currentPill = null;
         this.isBoostPressed = false;
         this.oldPills = [];
+        this.currentID = 0;
+
+        this.viruses = [];
     }
 
     set cells(newCells) {
@@ -18,8 +21,10 @@ const PillsManager = class PillsManager {
         if (this.currentPill != null) {
             this.oldPills.push(this.currentPill);
             this.clearComboedCells();
+        } else {
+            this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this, this.currentID);
+            this.currentID++;
         }
-        this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this);
     };
 
     addKeyboardListeners = () => {
@@ -67,18 +72,37 @@ const PillsManager = class PillsManager {
 
     clearComboedCells = () => {
         const comboedCells = this.lookForCombos();
+        const pillsToRemove = [];
 
         this.oldPills.forEach((oldPill) => {
             if (comboedCells.includes(oldPill.pillCells.cell1)) {
                 oldPill.pillCells.cell1 = null;
-            } else if (comboedCells.includes(oldPill.pillCells.cell2)) {
-                oldPill.pillCells.cell2 = null;
+                if (oldPill.pillCells.cell2 == null) {
+                    pillsToRemove.push(oldPill);
+                }
             }
+            if (comboedCells.includes(oldPill.pillCells.cell2)) {
+                oldPill.pillCells.cell2 = null;
+                if (oldPill.pillCells.cell1 == null) {
+                    pillsToRemove.push(oldPill);
+                }
+            }
+        });
+
+        pillsToRemove.forEach((removedPill) => {
+            this.oldPills.splice(this.oldPills.indexOf(removedPill), 1);
         });
 
         comboedCells.forEach((comboCell) => {
             comboCell.style.backgroundColor = "";
         });
+
+        if (comboedCells.length > 0) {
+            this.startFalling();
+        } else {
+            this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this, this.currentID);
+            this.currentID++;
+        }
     };
 
     lookForCombos = () => {
@@ -158,6 +182,46 @@ const PillsManager = class PillsManager {
 
         return combosCells;
     };
+
+    startFalling = () => {
+        let fellOnce = true;
+
+        const triggerFalling = () => {
+            let pillsOrdered = getPillsOrder();
+            fellOnce = false;
+            pillsOrdered.forEach((pill) => {
+                let didFell = pill.PillController.fallDown();
+                if (didFell == true) fellOnce = true;
+            });
+
+            if (fellOnce === true) {
+                setTimeout(triggerFalling, 200);
+            } else {
+                this.clearComboedCells();
+            }
+        };
+
+        const getPillsOrder = () => {
+            let pillsOrdered = [];
+            for (let row = 15; row >= 0; row--) {
+                for (let column = 0; column < 8; column++) {
+                    if (this._cells[row][column].style.backgroundColor != "") {
+                        for (let i = 0; i < this.oldPills.length; i++) {
+                            if (this.oldPills[i].pillCells.cell1 == this._cells[row][column] || this.oldPills[i].pillCells.cell2 == this._cells[row][column]) {
+                                if (!pillsOrdered.includes(this.oldPills[i])) {
+                                    pillsOrdered.push(this.oldPills[i]);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return pillsOrdered;
+        };
+
+        setTimeout(triggerFalling, 200);
+    };
 };
 
-export { PillsManager };
+export { CellsManager };
