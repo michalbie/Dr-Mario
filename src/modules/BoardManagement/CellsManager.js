@@ -1,4 +1,5 @@
 import { Pill } from "./Pill.js";
+import { Virus } from "./Virus.js";
 
 ("use strict");
 
@@ -9,8 +10,10 @@ const CellsManager = class CellsManager {
         this.isBoostPressed = false;
         this.oldPills = [];
         this.currentID = 0;
+        this.colorVariants = ["#DAA520", "#B22222", "lightblue"];
 
         this.viruses = [];
+        this.virusesNumber = 3;
     }
 
     set cells(newCells) {
@@ -22,8 +25,19 @@ const CellsManager = class CellsManager {
             this.oldPills.push(this.currentPill);
             this.clearComboedCells();
         } else {
+            this.createViruses();
             this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this, this.currentID);
             this.currentID++;
+        }
+    };
+
+    createViruses = () => {
+        for (let i = 0; i < this.virusesNumber; i++) {
+            let randomHeight = Math.floor(Math.random() * (16 - 5)) + 5;
+            let randomWidth = Math.floor(Math.random() * (8 - 1)) + 1;
+
+            let newVirus = new Virus(this.cells, this._cells[randomHeight][randomWidth], this);
+            this.viruses.push(newVirus);
         }
     };
 
@@ -86,6 +100,13 @@ const CellsManager = class CellsManager {
                 if (oldPill.pillCells.cell1 == null) {
                     pillsToRemove.push(oldPill);
                 }
+            }
+        });
+
+        this.viruses.forEach((virus) => {
+            if (comboedCells.includes(virus.virusCell)) {
+                virus.virusCell.style.border = "";
+                virus.virusCell = null;
             }
         });
 

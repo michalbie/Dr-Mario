@@ -4,12 +4,10 @@ import { PillController } from "./PillController.js";
 
 const Pill = class Pill {
     constructor(cells, cell1, cell2, parent, id) {
-        const _possibleVariations = ["#DAA520", "#B22222", "lightblue"];
-        this.getPossibleVariations = () => {
-            return _possibleVariations;
-        };
-
         this.parent = parent;
+
+        this._possibleVariations = this.parent.colorVariants;
+
         this.id = id;
         this._cells = cells;
         this.pillCells = { cell1: cell1, cell2: cell2 };
@@ -25,14 +23,16 @@ const Pill = class Pill {
     }
 
     _getRandomColors = () => {
-        const colorVariations = this.getPossibleVariations();
         const randomColors = [];
-
         for (let i = 0; i < 2; i++) {
-            let randomColorIndex = Math.floor(Math.random() * parseInt(colorVariations.length));
-            randomColors.push(colorVariations[randomColorIndex]);
+            let randomColorIndex = Math.floor(Math.random() * parseInt(this._possibleVariations.length));
+            randomColors.push(this._possibleVariations[randomColorIndex]);
         }
         return randomColors;
+    };
+
+    _getColorVariations = () => {
+        return this._possibleVariations;
     };
 
     resetCellsColor = () => {
