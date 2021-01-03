@@ -1,24 +1,94 @@
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-#board-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+#game-container {
+    position: relative;
 
-	#game-board {
-		display: grid;
-		grid-template-columns: repeat(8, 1fr);
-		grid-template-rows: repeat(16, 1fr);
+    #background-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
 
-		.board-cell {
-			background-color: white;
-			border: 1px solid black;
-			width: 3em;
-			height: 3em;
-		}
-	}
+        #background-pattern {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: url("../assets/background.png");
+        }
+
+        #scoreboard-container {
+            z-index: 5;
+            position: absolute;
+            top: 50px;
+            left: 100px;
+
+            img {
+                width: 500px;
+                height: auto;
+            }
+        }
+
+        #magnifier-container {
+            z-index: 5;
+            position: absolute;
+            bottom: 50px;
+            left: 150px;
+
+            img {
+                width: 400px;
+                height: auto;
+            }
+        }
+
+        #doctor-container {
+            z-index: 5;
+            position: absolute;
+            top: 50px;
+            right: 100px;
+
+            img {
+                width: 400px;
+                height: auto;
+            }
+        }
+
+        #info-container {
+            z-index: 5;
+            position: absolute;
+            bottom: 50px;
+            right: 150px;
+
+            img {
+                width: 350px;
+                height: 350px;
+            }
+        }
+    }
+
+    #board-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+
+        #game-board {
+            z-index: 3;
+            display: grid;
+            gap: 0;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(16, 1fr);
+
+            .board-cell {
+                background-color: black;
+                border: 1px solid black;
+                width: 3em;
+                height: 3em;
+            }
+        }
+    }
 }

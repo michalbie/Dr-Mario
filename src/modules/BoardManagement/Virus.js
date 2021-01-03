@@ -8,8 +8,7 @@ const Virus = class Virus {
         this.colorVariations = this.parent.colorVariants;
 
         this._color = this._getRandomColor();
-        console.log(this.virusCell, this._color);
-        this.virusCell.style.border = "2px solid red";
+        //this.virusCell.style.border = "2px solid red";
         this.colorCells();
     }
 

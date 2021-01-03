@@ -33,8 +33,22 @@ const CellsManager = class CellsManager {
 
     createViruses = () => {
         for (let i = 0; i < this.virusesNumber; i++) {
-            let randomHeight = Math.floor(Math.random() * (16 - 5)) + 5;
-            let randomWidth = Math.floor(Math.random() * (8 - 1)) + 1;
+            let occupied = false;
+            let randomHeight;
+            let randomWidth;
+
+            do {
+                occupied = false;
+                randomHeight = Math.floor(Math.random() * (16 - 5)) + 5;
+                randomWidth = Math.floor(Math.random() * (8 - 1)) + 1;
+
+                for (let virusIndex = 0; virusIndex < this.viruses.length; virusIndex++) {
+                    if (this.viruses[virusIndex].virusCell == this._cells[randomHeight][randomWidth]) {
+                        occupied = true;
+                        break;
+                    }
+                }
+            } while (occupied == true);
 
             let newVirus = new Virus(this.cells, this._cells[randomHeight][randomWidth], this);
             this.viruses.push(newVirus);
