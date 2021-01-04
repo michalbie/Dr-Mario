@@ -102,60 +102,70 @@ const CellsManager = class CellsManager {
         const comboedCells = this.lookForCombos();
         const pillsToRemove = [];
 
-        this.oldPills.forEach((oldPill) => {
-            if (comboedCells.includes(oldPill.pillCells.cell1)) {
-                let destroyedCell = oldPill.pillCells.cell1;
-                oldPill.pillCells.cell1 = null;
+        const destroyCells = () => {
+            this.oldPills.forEach((oldPill) => {
+                if (comboedCells.includes(oldPill.pillCells.cell1)) {
+                    let destroyedCell = oldPill.pillCells.cell1;
+                    oldPill.pillCells.cell1 = null;
 
-                if (oldPill.pillCells.cell2 == null) {
-                    pillsToRemove.push(oldPill);
+                    if (oldPill.pillCells.cell2 == null) {
+                        pillsToRemove.push(oldPill);
+                    }
+
+                    oldPill.resetCellsColor();
+                    oldPill.colorCells();
+                    destroyedCell.children[0].remove();
+                    this.showDestroyAnimation(destroyedCell, oldPill._colors[0], "pill");
                 }
+                if (comboedCells.includes(oldPill.pillCells.cell2)) {
+                    let destroyedCell = oldPill.pillCells.cell2;
+                    oldPill.pillCells.cell2 = null;
 
-                oldPill.resetCellsColor();
-                oldPill.colorCells();
-                destroyedCell.children[0].remove();
-                this.showDestroyAnimation(destroyedCell, oldPill._colors[0], "pill");
-            }
-            if (comboedCells.includes(oldPill.pillCells.cell2)) {
-                let destroyedCell = oldPill.pillCells.cell2;
-                oldPill.pillCells.cell2 = null;
+                    if (oldPill.pillCells.cell1 == null) {
+                        pillsToRemove.push(oldPill);
+                    }
 
-                if (oldPill.pillCells.cell1 == null) {
-                    pillsToRemove.push(oldPill);
+                    oldPill.resetCellsColor();
+                    oldPill.colorCells();
+                    destroyedCell.children[0].remove();
+                    this.showDestroyAnimation(destroyedCell, oldPill._colors[1], "pill");
                 }
+            });
 
-                oldPill.resetCellsColor();
-                oldPill.colorCells();
-                destroyedCell.children[0].remove();
-                this.showDestroyAnimation(destroyedCell, oldPill._colors[1], "pill");
-            }
-        });
-
-        this.viruses.forEach((virus) => {
-            if (comboedCells.includes(virus.virusCell)) {
-                let destroyCell = virus.virusCell;
-                virus.virusCell = null;
-                destroyCell.children[0].remove();
-                this.showDestroyAnimation(destroyCell, virus._color, "virus");
-
+            comboedCells.forEach((comboCell) => {
                 setTimeout(() => {
-                    if (destroyCell.children.length > 0) destroyCell.children[0].remove();
+                    if (comboCell.children.length > 0) comboCell.children[0].remove();
                 }, 100);
-            }
-        });
+            });
+        };
 
-        pillsToRemove.forEach((removedPill) => {
-            this.oldPills.splice(this.oldPills.indexOf(removedPill), 1);
-        });
+        const destroyViruses = () => {
+            this.viruses.forEach((virus) => {
+                if (comboedCells.includes(virus.virusCell)) {
+                    let destroyCell = virus.virusCell;
+                    virus.virusCell = null;
+                    destroyCell.children[0].remove();
+                    this.showDestroyAnimation(destroyCell, virus._color, "virus");
 
-        comboedCells.forEach((comboCell) => {
-            setTimeout(() => {
-                if (comboCell.children.length > 0) comboCell.children[0].remove();
-            }, 100);
-        });
+                    setTimeout(() => {
+                        if (destroyCell.children.length > 0) destroyCell.children[0].remove();
+                    }, 100);
+                }
+            });
+        };
+
+        const removeEmptyCells = () => {
+            pillsToRemove.forEach((removedPill) => {
+                this.oldPills.splice(this.oldPills.indexOf(removedPill), 1);
+            });
+        };
+
+        destroyCells();
+        destroyViruses();
+        removeEmptyCells();
 
         if (comboedCells.length > 0) {
-            this.startFalling();
+            setTimeout(this.startFalling, 100);
         } else {
             this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this, this.currentID);
             this.currentID++;
@@ -168,7 +178,6 @@ const CellsManager = class CellsManager {
 
         const getCellColor = (cell) => {
             let cellColor = null;
-
             for (let i = 0; i < this.oldPills.length; i++) {
                 if (this.oldPills[i].pillCells.cell1 == cell) {
                     cellColor = this.oldPills[i]._colors[0];
@@ -187,71 +196,59 @@ const CellsManager = class CellsManager {
             }
         };
 
+        const resetCurrentCombo = () => {
+            currentCombo.comboCells = [];
+            currentCombo.color = "unknown";
+            currentCombo.amount = 0;
+        };
+
+        const scanCell = (row, column) => {
+            if (getCellColor(this._cells[row][column]) == currentCombo.color) {
+                currentCombo.amount += 1;
+                currentCombo.comboCells.push(this._cells[row][column]);
+            } else if (currentCombo.amount >= 4) {
+                currentCombo.comboCells.forEach((comboCell) => {
+                    combosCells.push(comboCell);
+                });
+                currentCombo.comboCells = [this._cells[row][column]];
+                currentCombo.color = getCellColor(this._cells[row][column]);
+                currentCombo.amount = 1;
+            } else if (this._cells[row][column].children.length != 0) {
+                currentCombo.comboCells = [this._cells[row][column]];
+                currentCombo.color = getCellColor(this._cells[row][column]);
+                currentCombo.amount = 1;
+            } else {
+                resetCurrentCombo();
+            }
+        };
+
         const scanByRows = () => {
             for (let row = 0; row < 16; row++) {
                 for (let column = 0; column < 8; column++) {
-                    if (getCellColor(this._cells[row][column]) == currentCombo.color) {
-                        currentCombo.amount += 1;
-                        currentCombo.comboCells.push(this._cells[row][column]);
-                    } else if (currentCombo.amount >= 4) {
-                        currentCombo.comboCells.forEach((comboCell) => {
-                            combosCells.push(comboCell);
-                        });
-                        currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = getCellColor(this._cells[row][column]);
-                        currentCombo.amount = 1;
-                    } else if (this._cells[row][column].children.length != 0) {
-                        currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = getCellColor(this._cells[row][column]);
-                        currentCombo.amount = 1;
-                    } else {
-                        currentCombo.comboCells = [];
-                        currentCombo.color = "unknown";
-                        currentCombo.amount = 0;
-                    }
+                    scanCell(row, column);
                 }
+
                 if (currentCombo.amount >= 4) {
                     currentCombo.comboCells.forEach((comboCell) => {
                         combosCells.push(comboCell);
                     });
                 }
-                currentCombo.comboCells = [];
-                currentCombo.color = "unknown";
-                currentCombo.amount = 0;
+                resetCurrentCombo();
             }
         };
 
         const scanByColumns = () => {
             for (let column = 0; column < 8; column++) {
                 for (let row = 0; row < 16; row++) {
-                    if (getCellColor(this._cells[row][column]) == currentCombo.color) {
-                        currentCombo.amount += 1;
-                        currentCombo.comboCells.push(this._cells[row][column]);
-                    } else if (currentCombo.amount >= 4) {
-                        currentCombo.comboCells.forEach((comboCell) => {
-                            combosCells.push(comboCell);
-                        });
-                        currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = getCellColor(this._cells[row][column]);
-                        currentCombo.amount = 1;
-                    } else if (this._cells[row][column].children.length != 0) {
-                        currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = getCellColor(this._cells[row][column]);
-                        currentCombo.amount = 1;
-                    } else {
-                        currentCombo.comboCells = [];
-                        currentCombo.color = "unknown";
-                        currentCombo.amount = 0;
-                    }
+                    scanCell(row, column);
                 }
+
                 if (currentCombo.amount >= 4) {
                     currentCombo.comboCells.forEach((comboCell) => {
                         combosCells.push(comboCell);
                     });
                 }
-                currentCombo.comboCells = [];
-                currentCombo.color = "unknown";
-                currentCombo.amount = 0;
+                resetCurrentCombo();
             }
         };
 
