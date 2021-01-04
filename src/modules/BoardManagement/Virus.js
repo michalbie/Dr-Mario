@@ -8,7 +8,6 @@ const Virus = class Virus {
         this.colorVariations = this.parent.colorVariants;
 
         this._color = this._getRandomColor();
-        //this.virusCell.style.border = "2px solid red";
         this.colorCells();
     }
 
@@ -20,11 +19,16 @@ const Virus = class Virus {
     };
 
     resetCellsColor = () => {
-        if (this.virusCell != null) this.virusCell.style.backgroundColor = "";
+        if (this.virusCell != null) {
+            this.virusCell.children[0].remove();
+        }
     };
 
     colorCells = () => {
-        if (this.virusCell != null) this.virusCell.style.backgroundColor = this._color;
+        let image = document.createElement("img");
+        image.setAttribute("class", "cell-img");
+        image.src = `../../../assets/covid_${this._color}.png`;
+        if (this.virusCell != null) this.virusCell.appendChild(image);
     };
 };
 

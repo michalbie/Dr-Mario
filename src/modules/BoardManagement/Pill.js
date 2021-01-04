@@ -17,10 +17,48 @@ const Pill = class Pill {
         this.fallingTime = 800;
         this.currentFallingTime = this.fallingTime;
         this.didFell = false;
-        this.colorCells();
 
         this.PillController = new PillController(this);
+        this._setTextures();
+        this.colorCells();
     }
+
+    _setTextures = () => {
+        let image1 = document.createElement("img");
+        let image2 = document.createElement("img");
+        image1.setAttribute("class", "cell-img");
+        image2.setAttribute("class", "cell-img");
+
+        let orientation1 = "left";
+        let orientation2 = "right";
+
+        if (this.PillController.orientation == "horizontal") {
+            if (this.PillController.currentPosition.y1 > this.PillController.currentPosition.y2) {
+                orientation1 = "right";
+                orientation2 = "left";
+            }
+        } else {
+            if (this.PillController.currentPosition.x1 < this.PillController.currentPosition.x2) {
+                orientation1 = "up";
+                orientation2 = "down";
+            } else {
+                orientation1 = "down";
+                orientation2 = "up";
+            }
+        }
+
+        if (this.pillCells.cell1 != null && this.pillCells.cell2 != null) {
+            image1.src = `../../../assets/${this._colors[0]}_${orientation1}.png`;
+            image2.src = `../../../assets/${this._colors[1]}_${orientation2}.png`;
+        } else if (this.pillCells.cell1 != null) {
+            image1.src = `../../../assets/${this._colors[0]}_dot.png`;
+        } else if (this.pillCells.cell2 != null) {
+            image2.src = `../../../assets/${this._colors[1]}_dot.png`;
+        }
+
+        if (this.pillCells.cell1 != null) this.pillCells.cell1.appendChild(image1);
+        if (this.pillCells.cell2 != null) this.pillCells.cell2.appendChild(image2);
+    };
 
     _getRandomColors = () => {
         const randomColors = [];
@@ -36,13 +74,28 @@ const Pill = class Pill {
     };
 
     resetCellsColor = () => {
-        if (this.pillCells.cell1 != null) this.pillCells.cell1.style.backgroundColor = "";
-        if (this.pillCells.cell2 != null) this.pillCells.cell2.style.backgroundColor = "";
+        if (this.pillCells.cell1 != null) {
+            this.pillCells.cell1.children[0].remove();
+        }
+        if (this.pillCells.cell2 != null) {
+            this.pillCells.cell2.children[0].remove();
+        }
     };
 
     colorCells = () => {
-        if (this.pillCells.cell1 != null) this.pillCells.cell1.style.backgroundColor = this._colors[0];
-        if (this.pillCells.cell2 != null) this.pillCells.cell2.style.backgroundColor = this._colors[1];
+        if (this.pillCells.cell1 != null && this.pillCells.cell2 != null) {
+            if (this.pillCells.cell1.children.length == 0 && this.pillCells.cell2.children.length == 0) {
+                this._setTextures();
+            }
+        } else if (this.pillCells.cell1 != null) {
+            if (this.pillCells.cell1.children.length == 0) {
+                this._setTextures();
+            }
+        } else if (this.pillCells.cell2 != null) {
+            if (this.pillCells.cell2.children.length == 0) {
+                this._setTextures();
+            }
+        }
     };
 };
 

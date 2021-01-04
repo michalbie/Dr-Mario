@@ -42,6 +42,7 @@ const PillController = class PillController {
 
         this.pill.resetCellsColor();
         if (this.canBeMoved(newPosition)) {
+            this.pill.colorCells();
             this.moveToPosition(newPosition, this.orientation);
             setTimeout(this.moveDown, this.pill.currentFallingTime, "byFalling");
         } else {
@@ -213,10 +214,8 @@ const PillController = class PillController {
 
     canBeMoved = ({ x1, y1, x2, y2 }) => {
         if (x1 < 16 && x1 >= 0 && x2 < 16 && x2 >= 0 && y1 < 8 && y1 >= 0 && y2 < 8 && y2 >= 0) {
-            if (this.pill._cells[x1][y1].style.backgroundColor == "" && this.pill._cells[x2][y2].style.backgroundColor == "") {
+            if (this.pill._cells[x1][y1].children.length == 0 && this.pill._cells[x2][y2].children.length == 0) {
                 return true;
-            } else {
-                //console.log("cant move bcs: ", this.pill._cells[x1][y1].style.backgroundColor, this.pill._cells[x2][y2].style.backgroundColor);
             }
         }
         return false;
@@ -225,7 +224,7 @@ const PillController = class PillController {
     fallDown = () => {
         let fellOnce = false;
         if (this.pill.pillCells.cell1 != null && this.pill.pillCells.cell2 == null) {
-            if (this.currentPosition.x1 < 15 && this.pill._cells[this.currentPosition.x1 + 1][this.currentPosition.y1].style.backgroundColor == "") {
+            if (this.currentPosition.x1 < 15 && this.pill._cells[this.currentPosition.x1 + 1][this.currentPosition.y1].children.length == 0) {
                 this.pill.resetCellsColor();
                 this.pill.pillCells.cell1 = this.pill._cells[this.currentPosition.x1 + 1][this.currentPosition.y1];
                 this.currentPosition = this.getPillCellsPosition();
@@ -233,7 +232,7 @@ const PillController = class PillController {
                 fellOnce = true;
             }
         } else if (this.pill.pillCells.cell2 != null && this.pill.pillCells.cell1 == null) {
-            if (this.currentPosition.x2 < 15 && this.pill._cells[this.currentPosition.x2 + 1][this.currentPosition.y2].style.backgroundColor == "") {
+            if (this.currentPosition.x2 < 15 && this.pill._cells[this.currentPosition.x2 + 1][this.currentPosition.y2].children.length == 0) {
                 this.pill.resetCellsColor();
                 this.pill.pillCells.cell2 = this.pill._cells[this.currentPosition.x2 + 1][this.currentPosition.y2];
                 this.currentPosition = this.getPillCellsPosition();

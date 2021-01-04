@@ -10,7 +10,7 @@ const CellsManager = class CellsManager {
         this.isBoostPressed = false;
         this.oldPills = [];
         this.currentID = 0;
-        this.colorVariants = ["#DAA520", "#B22222", "lightblue"];
+        this.colorVariants = ["br", "yl", "bl"];
 
         this.viruses = [];
         this.virusesNumber = 3;
@@ -57,7 +57,7 @@ const CellsManager = class CellsManager {
 
     addKeyboardListeners = () => {
         document.addEventListener("keydown", (event) => {
-            event.preventDefault();
+            //event.preventDefault();
             switch (event.key) {
                 case "ArrowDown":
                 case "S":
@@ -104,23 +104,43 @@ const CellsManager = class CellsManager {
 
         this.oldPills.forEach((oldPill) => {
             if (comboedCells.includes(oldPill.pillCells.cell1)) {
+                let destroyedCell = oldPill.pillCells.cell1;
                 oldPill.pillCells.cell1 = null;
+
                 if (oldPill.pillCells.cell2 == null) {
                     pillsToRemove.push(oldPill);
                 }
+
+                oldPill.resetCellsColor();
+                oldPill.colorCells();
+                destroyedCell.children[0].remove();
+                this.showDestroyAnimation(destroyedCell, oldPill._colors[0], "pill");
             }
             if (comboedCells.includes(oldPill.pillCells.cell2)) {
+                let destroyedCell = oldPill.pillCells.cell2;
                 oldPill.pillCells.cell2 = null;
+
                 if (oldPill.pillCells.cell1 == null) {
                     pillsToRemove.push(oldPill);
                 }
+
+                oldPill.resetCellsColor();
+                oldPill.colorCells();
+                destroyedCell.children[0].remove();
+                this.showDestroyAnimation(destroyedCell, oldPill._colors[1], "pill");
             }
         });
 
         this.viruses.forEach((virus) => {
             if (comboedCells.includes(virus.virusCell)) {
-                virus.virusCell.style.border = "";
+                let destroyCell = virus.virusCell;
                 virus.virusCell = null;
+                destroyCell.children[0].remove();
+                this.showDestroyAnimation(destroyCell, virus._color, "virus");
+
+                setTimeout(() => {
+                    if (destroyCell.children.length > 0) destroyCell.children[0].remove();
+                }, 100);
             }
         });
 
@@ -129,7 +149,9 @@ const CellsManager = class CellsManager {
         });
 
         comboedCells.forEach((comboCell) => {
-            comboCell.style.backgroundColor = "";
+            setTimeout(() => {
+                if (comboCell.children.length > 0) comboCell.children[0].remove();
+            }, 100);
         });
 
         if (comboedCells.length > 0) {
@@ -144,10 +166,31 @@ const CellsManager = class CellsManager {
         let currentCombo = { color: "unknown", amount: 0, comboCells: [] };
         let combosCells = [];
 
+        const getCellColor = (cell) => {
+            let cellColor = null;
+
+            for (let i = 0; i < this.oldPills.length; i++) {
+                if (this.oldPills[i].pillCells.cell1 == cell) {
+                    cellColor = this.oldPills[i]._colors[0];
+                    return cellColor;
+                } else if (this.oldPills[i].pillCells.cell2 == cell) {
+                    cellColor = this.oldPills[i]._colors[1];
+                    return cellColor;
+                }
+            }
+
+            for (let i = 0; i < this.viruses.length; i++) {
+                if (this.viruses[i].virusCell == cell) {
+                    cellColor = this.viruses[i]._color;
+                    return cellColor;
+                }
+            }
+        };
+
         const scanByRows = () => {
             for (let row = 0; row < 16; row++) {
                 for (let column = 0; column < 8; column++) {
-                    if (this._cells[row][column].style.backgroundColor == currentCombo.color) {
+                    if (getCellColor(this._cells[row][column]) == currentCombo.color) {
                         currentCombo.amount += 1;
                         currentCombo.comboCells.push(this._cells[row][column]);
                     } else if (currentCombo.amount >= 4) {
@@ -155,11 +198,11 @@ const CellsManager = class CellsManager {
                             combosCells.push(comboCell);
                         });
                         currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = this._cells[row][column].style.backgroundColor;
+                        currentCombo.color = getCellColor(this._cells[row][column]);
                         currentCombo.amount = 1;
-                    } else if (this._cells[row][column].style.backgroundColor != "") {
+                    } else if (this._cells[row][column].children.length != 0) {
                         currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = this._cells[row][column].style.backgroundColor;
+                        currentCombo.color = getCellColor(this._cells[row][column]);
                         currentCombo.amount = 1;
                     } else {
                         currentCombo.comboCells = [];
@@ -181,7 +224,7 @@ const CellsManager = class CellsManager {
         const scanByColumns = () => {
             for (let column = 0; column < 8; column++) {
                 for (let row = 0; row < 16; row++) {
-                    if (this._cells[row][column].style.backgroundColor == currentCombo.color) {
+                    if (getCellColor(this._cells[row][column]) == currentCombo.color) {
                         currentCombo.amount += 1;
                         currentCombo.comboCells.push(this._cells[row][column]);
                     } else if (currentCombo.amount >= 4) {
@@ -189,11 +232,11 @@ const CellsManager = class CellsManager {
                             combosCells.push(comboCell);
                         });
                         currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = this._cells[row][column].style.backgroundColor;
+                        currentCombo.color = getCellColor(this._cells[row][column]);
                         currentCombo.amount = 1;
-                    } else if (this._cells[row][column].style.backgroundColor != "") {
+                    } else if (this._cells[row][column].children.length != 0) {
                         currentCombo.comboCells = [this._cells[row][column]];
-                        currentCombo.color = this._cells[row][column].style.backgroundColor;
+                        currentCombo.color = getCellColor(this._cells[row][column]);
                         currentCombo.amount = 1;
                     } else {
                         currentCombo.comboCells = [];
@@ -218,6 +261,14 @@ const CellsManager = class CellsManager {
         return combosCells;
     };
 
+    showDestroyAnimation = (cell, color, who) => {
+        let destroyAnimationName = who == "pill" ? "o" : "x";
+        let image = document.createElement("img");
+        image.setAttribute("class", "cell-img");
+        image.src = `../../../assets/${color}_${destroyAnimationName}.png`;
+        cell.appendChild(image);
+    };
+
     startFalling = () => {
         let fellOnce = true;
 
@@ -230,7 +281,7 @@ const CellsManager = class CellsManager {
             });
 
             if (fellOnce === true) {
-                setTimeout(triggerFalling, 200);
+                setTimeout(triggerFalling, 70);
             } else {
                 this.clearComboedCells();
             }
@@ -240,7 +291,7 @@ const CellsManager = class CellsManager {
             let pillsOrdered = [];
             for (let row = 15; row >= 0; row--) {
                 for (let column = 0; column < 8; column++) {
-                    if (this._cells[row][column].style.backgroundColor != "") {
+                    if (this._cells[row][column].children.length != 0) {
                         for (let i = 0; i < this.oldPills.length; i++) {
                             if (this.oldPills[i].pillCells.cell1 == this._cells[row][column] || this.oldPills[i].pillCells.cell2 == this._cells[row][column]) {
                                 if (!pillsOrdered.includes(this.oldPills[i])) {
@@ -255,7 +306,7 @@ const CellsManager = class CellsManager {
             return pillsOrdered;
         };
 
-        setTimeout(triggerFalling, 200);
+        setTimeout(triggerFalling, 70);
     };
 };
 

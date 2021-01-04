@@ -23,55 +23,82 @@
   background: url("../assets/background.png");
 }
 
-#game-container #background-container #scoreboard-container {
-  z-index: 5;
+#game-container #background-container .left-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  height: 100%;
   position: absolute;
-  top: 50px;
-  left: 100px;
+  top: 0;
+  left: 50px;
 }
 
-#game-container #background-container #scoreboard-container img {
-  width: 500px;
+#game-container #background-container .left-container #scoreboard-container {
+  z-index: 5;
+}
+
+#game-container #background-container .left-container #scoreboard-container img {
+  width: 20vw;
   height: auto;
 }
 
-#game-container #background-container #magnifier-container {
+#game-container #background-container .left-container #magnifier-container {
   z-index: 5;
-  position: absolute;
-  bottom: 50px;
-  left: 150px;
 }
 
-#game-container #background-container #magnifier-container img {
-  width: 400px;
+#game-container #background-container .left-container #magnifier-container img {
+  width: 20vw;
   height: auto;
 }
 
-#game-container #background-container #doctor-container {
-  z-index: 5;
+#game-container #background-container .right-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  height: 100%;
   position: absolute;
-  top: 50px;
-  right: 100px;
+  top: 0;
+  right: 50px;
 }
 
-#game-container #background-container #doctor-container img {
-  width: 400px;
+#game-container #background-container .right-container #doctor-container {
+  z-index: 5;
+}
+
+#game-container #background-container .right-container #doctor-container img {
+  width: 20vw;
   height: auto;
 }
 
-#game-container #background-container #info-container {
+#game-container #background-container .right-container #info-container {
   z-index: 5;
-  position: absolute;
-  bottom: 50px;
-  right: 150px;
 }
 
-#game-container #background-container #info-container img {
-  width: 350px;
-  height: 350px;
+#game-container #background-container .right-container #info-container img {
+  width: 18vw;
+  height: auto;
 }
 
 #game-container #board-container {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -84,6 +111,13 @@
   height: 100vh;
 }
 
+#game-container #board-container > img {
+  z-index: 2;
+  position: absolute;
+  width: 20vw;
+  height: auto;
+}
+
 #game-container #board-container #game-board {
   z-index: 3;
   display: -ms-grid;
@@ -93,12 +127,17 @@
       grid-template-columns: repeat(8, 1fr);
   -ms-grid-rows: (1fr)[16];
       grid-template-rows: repeat(16, 1fr);
+  margin-top: 10vh;
 }
 
 #game-container #board-container #game-board .board-cell {
   background-color: black;
-  border: 1px solid black;
-  width: 3em;
-  height: 3em;
+  width: 1.65vw;
+  height: 1.65vw;
+}
+
+#game-container #board-container #game-board .board-cell .cell-img {
+  width: 100%;
+  height: auto;
 }
 /*# sourceMappingURL=index.css.map */
