@@ -1,5 +1,6 @@
 import { Pill } from "./Pill.js";
 import { Virus } from "./Virus.js";
+import { scoreAPI } from "../../globals.js";
 
 ("use strict");
 
@@ -13,7 +14,9 @@ const CellsManager = class CellsManager {
         this.colorVariants = ["br", "yl", "bl"];
 
         this.viruses = [];
-        this.virusesNumber = 3;
+        this.virusesNumber = 10;
+
+        this.currentScore = 0;
     }
 
     set cells(newCells) {
@@ -150,6 +153,12 @@ const CellsManager = class CellsManager {
                     setTimeout(() => {
                         if (destroyCell.children.length > 0) destroyCell.children[0].remove();
                     }, 100);
+
+                    scoreAPI.setCurrentScore(scoreAPI.currentScore + 100);
+                    document.getElementById("current-score-container").dispatchEvent(scoreAPI.currentScoreUpdateEvent);
+                    if (parseInt(scoreAPI.currentScore) > parseInt(scoreAPI.topScore)) {
+                        scoreAPI.setTopScore(scoreAPI.currentScore);
+                    }
                 }
             });
         };

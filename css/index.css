@@ -43,12 +43,43 @@
 }
 
 #game-container #background-container .left-container #scoreboard-container {
+  position: relative;
   z-index: 5;
 }
 
-#game-container #background-container .left-container #scoreboard-container img {
+#game-container #background-container .left-container #scoreboard-container > img {
   width: 20vw;
   height: auto;
+}
+
+#game-container #background-container .left-container #scoreboard-container #top-score-container {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  top: 40%;
+  right: 10%;
+  width: 50%;
+  height: 10%;
+}
+
+#game-container #background-container .left-container #scoreboard-container #current-score-container {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  top: 75%;
+  right: 10%;
+  width: 50%;
+  height: 10%;
 }
 
 #game-container #background-container .left-container #magnifier-container {
@@ -137,6 +168,17 @@
 }
 
 #game-container #board-container #game-board .board-cell .cell-img {
+  width: 100%;
+  height: auto;
+}
+
+.digit {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.digit > img {
   width: 100%;
   height: auto;
 }

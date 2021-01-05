@@ -14,6 +14,12 @@
     top: 0;
 }
 
+@mixin digits-container {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+}
+
 #game-container {
     position: relative;
 
@@ -37,16 +43,33 @@
             left: 50px;
 
             #scoreboard-container {
+                position: relative;
                 z-index: 5;
-                img {
+
+                > img {
                     width: 20vw;
                     height: auto;
+                }
+
+                #top-score-container {
+                    @include digits-container();
+                    top: 40%;
+                    right: 10%;
+                    width: 50%;
+                    height: 10%;
+                }
+
+                #current-score-container {
+                    @include digits-container();
+                    top: 75%;
+                    right: 10%;
+                    width: 50%;
+                    height: 10%;
                 }
             }
 
             #magnifier-container {
                 z-index: 5;
-
                 img {
                     width: 20vw;
                     height: auto;
@@ -109,5 +132,13 @@
                 }
             }
         }
+    }
+}
+
+.digit {
+    flex-grow: 1;
+    > img {
+        width: 100%;
+        height: auto;
     }
 }
