@@ -7,8 +7,6 @@ const ScoreboardManager = class ScoreboardManager {
         this.scoreboardContainer = scoreboardContainer;
         this.topScoreContainer = scoreboardContainer.querySelector("#top-score-container");
         this.currentScoreContainer = scoreboardContainer.querySelector("#current-score-container");
-
-        this.initializeScoreboard();
     }
 
     initializeScoreboard = () => {

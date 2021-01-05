@@ -10,7 +10,7 @@ const UIManager = class UIManager {
     }
 
     prepareLevel = () => {
-        //this.initializeBackgroundPattern();
+        this.ScoreboardManager.initializeScoreboard();
     };
 };
 
