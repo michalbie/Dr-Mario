@@ -14,7 +14,7 @@ const CellsManager = class CellsManager {
         this.colorVariants = ["br", "yl", "bl"];
 
         this.viruses = [];
-        this.virusesNumber = 10;
+        this.virusesNumber = 3;
 
         this.currentScore = 0;
     }
@@ -53,7 +53,7 @@ const CellsManager = class CellsManager {
                 }
             } while (occupied == true);
 
-            let newVirus = new Virus(this.cells, this._cells[randomHeight][randomWidth], this);
+            let newVirus = new Virus(this.cells, this._cells[randomHeight][randomWidth], this, this.colorVariants[i % this.colorVariants.length]);
             this.viruses.push(newVirus);
         }
     };
@@ -158,6 +158,19 @@ const CellsManager = class CellsManager {
                     document.getElementById("current-score-container").dispatchEvent(scoreAPI.currentScoreUpdateEvent);
                     if (parseInt(scoreAPI.currentScore) > parseInt(scoreAPI.topScore)) {
                         scoreAPI.setTopScore(scoreAPI.currentScore);
+                    }
+
+                    let virusColorExists = false;
+                    for (let i = 0; i < this.viruses.length; i++) {
+                        if (this.viruses[i]._color == virus._color && this.viruses[i].virusCell != null) {
+                            document.getElementById(`${virus._color}-virus`).dispatchEvent(new Event("singleVirusKilled"));
+                            virusColorExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!virusColorExists) {
+                        document.getElementById(`${virus._color}-virus`).dispatchEvent(new Event("everyVirusKilled"));
                     }
                 }
             });

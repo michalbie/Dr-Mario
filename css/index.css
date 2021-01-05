@@ -84,11 +84,18 @@
 
 #game-container #background-container .left-container #magnifier-container {
   z-index: 5;
+  position: relative;
 }
 
-#game-container #background-container .left-container #magnifier-container img {
+#game-container #background-container .left-container #magnifier-container #magnifier {
   width: 20vw;
   height: auto;
+}
+
+#game-container #background-container .left-container #magnifier-container .virus-animation {
+  width: 25%;
+  height: auto;
+  position: absolute;
 }
 
 #game-container #background-container .right-container {

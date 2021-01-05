@@ -70,9 +70,17 @@
 
             #magnifier-container {
                 z-index: 5;
-                img {
+                position: relative;
+
+                #magnifier {
                     width: 20vw;
                     height: auto;
+                }
+
+                .virus-animation {
+                    width: 25%;
+                    height: auto;
+                    position: absolute;
                 }
             }
         }
