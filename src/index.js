@@ -10,10 +10,12 @@ const App = class App {
     }
 
     initializeApp = () => {
-        this.UIManager.prepareLevel();
+        this.UIManager.prepareUI();
         this.boardManager.prepareBoard();
     };
 };
 
 const app = new App();
 app.initializeApp();
+
+//gameover conditions

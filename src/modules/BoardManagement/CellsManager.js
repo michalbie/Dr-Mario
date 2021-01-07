@@ -1,11 +1,11 @@
 import { Pill } from "./Pill.js";
 import { Virus } from "./Virus.js";
-import { scoreAPI } from "../../globals.js";
+import { scoreAPI, levelInfoAPI } from "../../globals.js";
 
 ("use strict");
 
 const CellsManager = class CellsManager {
-    constructor(gameBoard) {
+    constructor(gameBoard, levelNumber) {
         this._cells = [];
         this.gameBoard = gameBoard;
         this.currentPill = null;
@@ -16,8 +16,12 @@ const CellsManager = class CellsManager {
         this.colorVariants = ["br", "yl", "bl"];
 
         this.viruses = [];
-        this.virusesNumber = 3;
+        this.virusesNumber = 4 + levelNumber * 4;
+        levelInfoAPI.virusesNumber = this.virusesNumber;
         this.currentScore = 0;
+
+        this.isGameOver = false;
+        this.isStageCompleted = false;
     }
 
     set cells(newCells) {
@@ -157,6 +161,15 @@ const CellsManager = class CellsManager {
             });
         };
 
+        const checkIfStageCompleted = () => {
+            for (let i = 0; i < this.viruses.length; i++) {
+                if (this.viruses[i].virusCell != null) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
         const destroyViruses = () => {
             this.viruses.forEach((virus) => {
                 if (comboedCells.includes(virus.virusCell)) {
@@ -164,6 +177,8 @@ const CellsManager = class CellsManager {
                     virus.virusCell = null;
                     destroyCell.children[0].remove();
                     this.showDestroyAnimation(destroyCell, virus._color, "virus");
+                    levelInfoAPI.virusesNumber -= 1;
+                    document.getElementById("viruses-number").dispatchEvent(new Event("virusKilled"));
 
                     setTimeout(() => {
                         if (destroyCell.children.length > 0) destroyCell.children[0].remove();
@@ -187,6 +202,8 @@ const CellsManager = class CellsManager {
                     if (!virusColorExists) {
                         document.getElementById(`${virus._color}-virus`).dispatchEvent(new Event("everyVirusKilled"));
                     }
+
+                    if (checkIfStageCompleted()) this.isStageCompleted = true;
                 }
             });
         };
@@ -204,9 +221,23 @@ const CellsManager = class CellsManager {
         if (comboedCells.length > 0) {
             setTimeout(this.startFalling, 100);
         } else {
-            this.createPill();
-            document.getElementById("doctor-animation").dispatchEvent(new Event("sendPill"));
-            setTimeout(this.createPreviewPill, 500);
+            if (this._cells[6][3].children.length > 0 || this._cells[6][4].children.length > 0) {
+                this.isGameOver = true;
+                this.previewPill.resetCellsColor();
+                this.previewPill = null;
+            }
+
+            if (!this.isStageCompleted && !this.isGameOver) {
+                this.createPill();
+                document.getElementById("doctor-animation").dispatchEvent(new Event("sendPill"));
+                setTimeout(this.createPreviewPill, 500);
+            } else if (this.isStageCompleted) {
+                levelInfoAPI.levelNumber += 1;
+                document.getElementById("game-board").removeEventListener("playThrowPillAnimation", this.previewPill.PillController.animatePillThrow);
+                document.getElementById("game-info").dispatchEvent(new Event("stageCompleted"));
+            } else if (this.isGameOver) {
+                document.getElementById("game-info").dispatchEvent(new Event("gameOver"));
+            }
         }
     };
 

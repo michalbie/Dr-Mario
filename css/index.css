@@ -145,11 +145,42 @@
 
 #game-container #background-container .right-container #info-container {
   z-index: 5;
+  position: relative;
 }
 
-#game-container #background-container .right-container #info-container img {
+#game-container #background-container .right-container #info-container > img {
   width: 18vw;
   height: auto;
+}
+
+#game-container #background-container .right-container #info-container #level-number {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  top: 30%;
+  right: 17%;
+  width: 20%;
+  height: 10%;
+}
+
+#game-container #background-container .right-container #info-container #viruses-number {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  top: 75%;
+  right: 17%;
+  width: 20%;
+  height: 10%;
 }
 
 #game-container #board-container {
@@ -207,5 +238,29 @@
 .digit > img {
   width: 100%;
   height: auto;
+}
+
+#game-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  visibility: hidden;
+}
+
+#game-info > img {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
 }
 /*# sourceMappingURL=index.css.map */

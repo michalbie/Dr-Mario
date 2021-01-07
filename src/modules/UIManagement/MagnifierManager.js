@@ -8,6 +8,8 @@ const MagnifierManager = class MagnifierManager {
         this.brownVirus = document.getElementById("br-virus");
         this.yellowVirus = document.getElementById("yl-virus");
 
+        this.magnifier.addEventListener("stageCompleted", this.rebornViruses);
+
         this.initializeViruses();
     }
 
@@ -81,11 +83,11 @@ const MagnifierManager = class MagnifierManager {
     };
 
     knockDownVirusAnimation = (e) => {
+        let color = e.target.id.split("-")[0];
         setTimeout(() => {
             if (this.canResumeMoving()) this.moveIntervalPaused = false;
             e.target.src = `../../../assets/magnifier/${color}/move.gif`;
-            e.target.style.filter = "";
-        }, 5000);
+        }, 4000);
 
         this.setKnockDownAnimation(e.target);
     };
@@ -94,10 +96,16 @@ const MagnifierManager = class MagnifierManager {
         setTimeout(() => {
             if (this.canResumeMoving()) this.moveIntervalPaused = false;
             e.target.src = ``;
-            e.target.style.filter = "";
-        }, 5000);
+        }, 4000);
 
         this.setKnockDownAnimation(e.target);
+    };
+
+    rebornViruses = () => {
+        this.blueVirus.src = "../../../assets/magnifier/bl/move.gif";
+        this.brownVirus.src = "../../../assets/magnifier/br/move.gif";
+        this.yellowVirus.src = "../../../assets/magnifier/yl/move.gif";
+        this.moveIntervalPaused = false;
     };
 };
 

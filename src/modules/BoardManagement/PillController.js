@@ -7,9 +7,7 @@ const PillController = class PillController {
         this.currentPosition = this.getPillCellsPosition();
         this.yRange = this._getYRange();
 
-        document.getElementById("game-board").addEventListener("playThrowPillAnimation", () => {
-            this.animatePillThrow();
-        });
+        document.getElementById("game-board").addEventListener("playThrowPillAnimation", this.animatePillThrow);
     }
 
     _getYRange = () => {
@@ -302,6 +300,7 @@ const PillController = class PillController {
             if (numberOfRolls > 0) {
                 setTimeout(rotateAndMoveLeft, 20);
             } else {
+                document.getElementById("game-board").removeEventListener("playThrowPillAnimation", this.animatePillThrow);
                 this.startFalling();
             }
         };

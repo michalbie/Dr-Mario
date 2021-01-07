@@ -24,4 +24,9 @@ const scoreAPI = {
     },
 };
 
-export { scoreAPI };
+const levelInfoAPI = {
+    levelNumber: 0,
+    virusesNumber: 4,
+};
+
+export { scoreAPI, levelInfoAPI };
