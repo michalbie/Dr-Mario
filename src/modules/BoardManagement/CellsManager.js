@@ -33,7 +33,7 @@ const CellsManager = class CellsManager {
         this.currentPill = this.previewPill;
     };
 
-    prepareNewPill = () => {
+    prepareForNewPill = () => {
         if (this.currentPill != null) {
             this.oldPills.push(this.currentPill);
             this.clearComboedCells();
@@ -54,7 +54,7 @@ const CellsManager = class CellsManager {
 
             do {
                 occupied = false;
-                randomHeight = Math.floor(Math.random() * (22 - 8)) + 8;
+                randomHeight = Math.floor(Math.random() * (22 - 9)) + 9;
                 randomWidth = Math.floor(Math.random() * (8 - 1)) + 1;
 
                 for (let virusIndex = 0; virusIndex < this.viruses.length; virusIndex++) {
@@ -70,7 +70,7 @@ const CellsManager = class CellsManager {
         }
     };
 
-    addKeyboardListeners = () => {
+    addPillControlling = () => {
         document.addEventListener("keydown", (event) => {
             //event.preventDefault();
             switch (event.key) {

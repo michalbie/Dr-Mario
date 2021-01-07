@@ -52,7 +52,7 @@ const PillController = class PillController {
             this.pill.didFell = true;
             this.stopFalling();
             if (this.pill.parent.currentPill == this.pill) {
-                this.pill.parent.prepareNewPill();
+                this.pill.parent.prepareForNewPill();
             }
         }
     };

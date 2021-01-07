@@ -12,9 +12,9 @@ const BoardManager = class BoardManager {
 
     prepareBoard = () => {
         this.cells = this.BoardGenerator.generateBoard();
-        this.CellsManager.addKeyboardListeners();
+        this.CellsManager.addPillControlling();
         this.CellsManager.cells = this.cells;
-        this.CellsManager.prepareNewPill();
+        this.CellsManager.prepareForNewPill();
     };
 };
 
