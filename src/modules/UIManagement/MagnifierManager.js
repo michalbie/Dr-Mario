@@ -87,7 +87,6 @@ const MagnifierManager = class MagnifierManager {
             e.target.style.filter = "";
         }, 5000);
 
-        e.target.style.filter = "contrast(150%)";
         this.setKnockDownAnimation(e.target);
     };
 
@@ -98,7 +97,6 @@ const MagnifierManager = class MagnifierManager {
             e.target.style.filter = "";
         }, 5000);
 
-        e.target.style.filter = "contrast(150%)";
         this.setKnockDownAnimation(e.target);
     };
 };

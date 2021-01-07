@@ -35,7 +35,6 @@
             width: 100%;
             height: 100%;
             background: url("../assets/background.png");
-            //filter: hue-rotate(150deg);
         }
 
         .left-container {
@@ -87,12 +86,24 @@
 
         .right-container {
             @include sidebar-container();
-            right: 50px;
+            right: 2%;
 
             #doctor-container {
                 z-index: 5;
-                img {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                #doctor-frame {
                     width: 20vw;
+                    height: auto;
+                }
+
+                #doctor-animation {
+                    z-index: 11;
+                    position: absolute;
+                    width: 80%;
                     height: auto;
                 }
             }
@@ -122,17 +133,19 @@
         }
 
         #game-board {
-            z-index: 3;
+            z-index: 10;
+            position: relative;
             display: grid;
             gap: 0;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(25, 1fr);
             grid-template-rows: repeat(16, 1fr);
-            margin-top: 10vh;
+            margin-bottom: 5.5%;
+            margin-left: 29vw;
 
             .board-cell {
-                background-color: black;
-                width: 1.65vw;
-                height: 1.65vw;
+                background-color: transparent;
+                width: 1.7vw;
+                height: 1.7vw;
 
                 .cell-img {
                     width: 100%;

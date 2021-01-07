@@ -14,8 +14,8 @@ const Pill = class Pill {
 
         this._colors = this._getRandomColors();
 
-        this.fallingTime = 800;
-        this.currentFallingTime = this.fallingTime;
+        this.fallingTime = 650;
+        this.currentFallingTime = 30;
         this.didFell = false;
 
         this.PillController = new PillController(this);

@@ -5,9 +5,11 @@ import { scoreAPI } from "../../globals.js";
 ("use strict");
 
 const CellsManager = class CellsManager {
-    constructor() {
+    constructor(gameBoard) {
         this._cells = [];
+        this.gameBoard = gameBoard;
         this.currentPill = null;
+        this.previewPill = null;
         this.isBoostPressed = false;
         this.oldPills = [];
         this.currentID = 0;
@@ -15,7 +17,6 @@ const CellsManager = class CellsManager {
 
         this.viruses = [];
         this.virusesNumber = 3;
-
         this.currentScore = 0;
     }
 
@@ -23,14 +24,25 @@ const CellsManager = class CellsManager {
         this._cells = newCells;
     }
 
-    createNewPill = () => {
+    createPreviewPill = () => {
+        this.previewPill = new Pill(this._cells, this._cells[1][23], this._cells[1][24], this, this.currentID);
+        this.currentID++;
+    };
+
+    createPill = () => {
+        this.currentPill = this.previewPill;
+    };
+
+    prepareNewPill = () => {
         if (this.currentPill != null) {
             this.oldPills.push(this.currentPill);
             this.clearComboedCells();
         } else {
             this.createViruses();
-            this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this, this.currentID);
-            this.currentID++;
+            this.createPreviewPill();
+            this.createPill();
+            document.getElementById("doctor-animation").dispatchEvent(new Event("sendPill"));
+            setTimeout(this.createPreviewPill, 500);
         }
     };
 
@@ -42,7 +54,7 @@ const CellsManager = class CellsManager {
 
             do {
                 occupied = false;
-                randomHeight = Math.floor(Math.random() * (16 - 5)) + 5;
+                randomHeight = Math.floor(Math.random() * (22 - 8)) + 8;
                 randomWidth = Math.floor(Math.random() * (8 - 1)) + 1;
 
                 for (let virusIndex = 0; virusIndex < this.viruses.length; virusIndex++) {
@@ -65,8 +77,11 @@ const CellsManager = class CellsManager {
                 case "ArrowDown":
                 case "S":
                 case "s":
-                    this.isBoostPressed = true;
-                    this.currentPill.currentFallingTime = 20;
+                    let currentPosition = this.currentPill.PillController.currentPosition;
+                    if (currentPosition.x1 >= 6 && currentPosition.x2 >= 6) {
+                        this.isBoostPressed = true;
+                        this.currentPill.currentFallingTime = 20;
+                    }
                     break;
 
                 case "ArrowLeft":
@@ -189,8 +204,9 @@ const CellsManager = class CellsManager {
         if (comboedCells.length > 0) {
             setTimeout(this.startFalling, 100);
         } else {
-            this.currentPill = new Pill(this._cells, this._cells[0][3], this._cells[0][4], this, this.currentID);
-            this.currentID++;
+            this.createPill();
+            document.getElementById("doctor-animation").dispatchEvent(new Event("sendPill"));
+            setTimeout(this.createPreviewPill, 500);
         }
     };
 
@@ -245,7 +261,7 @@ const CellsManager = class CellsManager {
         };
 
         const scanByRows = () => {
-            for (let row = 0; row < 16; row++) {
+            for (let row = 0; row < 22; row++) {
                 for (let column = 0; column < 8; column++) {
                     scanCell(row, column);
                 }
@@ -261,7 +277,7 @@ const CellsManager = class CellsManager {
 
         const scanByColumns = () => {
             for (let column = 0; column < 8; column++) {
-                for (let row = 0; row < 16; row++) {
+                for (let row = 0; row < 22; row++) {
                     scanCell(row, column);
                 }
 
@@ -308,7 +324,7 @@ const CellsManager = class CellsManager {
 
         const getPillsOrder = () => {
             let pillsOrdered = [];
-            for (let row = 15; row >= 0; row--) {
+            for (let row = 21; row >= 0; row--) {
                 for (let column = 0; column < 8; column++) {
                     if (this._cells[row][column].children.length != 0) {
                         for (let i = 0; i < this.oldPills.length; i++) {

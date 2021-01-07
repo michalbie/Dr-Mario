@@ -114,15 +114,32 @@
   height: 100%;
   position: absolute;
   top: 0;
-  right: 50px;
+  right: 2%;
 }
 
 #game-container #background-container .right-container #doctor-container {
   z-index: 5;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-#game-container #background-container .right-container #doctor-container img {
+#game-container #background-container .right-container #doctor-container #doctor-frame {
   width: 20vw;
+  height: auto;
+}
+
+#game-container #background-container .right-container #doctor-container #doctor-animation {
+  z-index: 11;
+  position: absolute;
+  width: 80%;
   height: auto;
 }
 
@@ -157,21 +174,23 @@
 }
 
 #game-container #board-container #game-board {
-  z-index: 3;
+  z-index: 10;
+  position: relative;
   display: -ms-grid;
   display: grid;
   gap: 0;
-  -ms-grid-columns: (1fr)[8];
-      grid-template-columns: repeat(8, 1fr);
+  -ms-grid-columns: (1fr)[25];
+      grid-template-columns: repeat(25, 1fr);
   -ms-grid-rows: (1fr)[16];
       grid-template-rows: repeat(16, 1fr);
-  margin-top: 10vh;
+  margin-bottom: 5.5%;
+  margin-left: 29vw;
 }
 
 #game-container #board-container #game-board .board-cell {
-  background-color: black;
-  width: 1.65vw;
-  height: 1.65vw;
+  background-color: transparent;
+  width: 1.7vw;
+  height: 1.7vw;
 }
 
 #game-container #board-container #game-board .board-cell .cell-img {
