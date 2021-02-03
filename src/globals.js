@@ -2,7 +2,7 @@
 
 const scoreAPI = {
     currentScore: 0,
-    topScore: window.localStorage.getItem("topScore"),
+    topScore: window.localStorage.getItem("topScore") ? window.localStorage.getItem("topScore") : 0,
     currentScoreUpdateEvent: new Event("currentScoreChange"),
     topScoreUpdateEvent: new Event("topScoreChange"),
 

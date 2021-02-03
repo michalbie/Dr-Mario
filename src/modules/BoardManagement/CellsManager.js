@@ -112,12 +112,12 @@ const CellsManager = class CellsManager {
             }
         });
 
-        document.addEventListener("keyup", (event) => {
+        /*document.addEventListener("keyup", (event) => {
             if (event.key == "ArrowDown" || event.key == "S" || event.key == "s") {
                 this.isBoostPressed = false;
                 this.currentPill.currentFallingTime = this.currentPill.fallingTime;
             }
-        });
+        });*/
     };
 
     clearComboedCells = () => {
