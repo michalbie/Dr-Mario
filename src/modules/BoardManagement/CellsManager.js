@@ -17,6 +17,9 @@ const CellsManager = class CellsManager {
 
         this.viruses = [];
         this.virusesNumber = 4 + levelNumber * 4;
+        if (this.virusesNumber > 96) {
+            this.virusesNumber = 96;
+        }
         levelInfoAPI.virusesNumber = this.virusesNumber;
         this.currentScore = 0;
 
@@ -35,6 +38,7 @@ const CellsManager = class CellsManager {
 
     createPill = () => {
         this.currentPill = this.previewPill;
+        this.isBoostPressed = false;
     };
 
     prepareForNewPill = () => {
@@ -58,8 +62,8 @@ const CellsManager = class CellsManager {
 
             do {
                 occupied = false;
-                randomHeight = Math.floor(Math.random() * (22 - 9)) + 9;
-                randomWidth = Math.floor(Math.random() * (8 - 1)) + 1;
+                randomHeight = Math.floor(Math.random() * (22 - 10)) + 10;
+                randomWidth = Math.floor(Math.random() * 8);
 
                 for (let virusIndex = 0; virusIndex < this.viruses.length; virusIndex++) {
                     if (this.viruses[virusIndex].virusCell == this._cells[randomHeight][randomWidth]) {
