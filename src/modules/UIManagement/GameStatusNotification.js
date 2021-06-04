@@ -10,7 +10,7 @@ const GameStatusNotification = class GameStatusNotification {
     }
 
     showStageCompleted = () => {
-        this.image.src = "../../../assets/sc.png";
+        this.image.src = "assets/sc.png";
         this.gameStatusContainer.style.visibility = "visible";
 
         setTimeout(() => {
@@ -23,9 +23,9 @@ const GameStatusNotification = class GameStatusNotification {
     };
 
     showGameOver = () => {
-        this.image.src = "../../../assets/go.png";
+        this.image.src = "assets/go.png";
         this.gameStatusContainer.style.visibility = "visible";
-        document.getElementById("doctor-animation").src = "../../../assets/go_dr.png";
+        document.getElementById("doctor-animation").src = "assets/go_dr.png";
     };
 };
 

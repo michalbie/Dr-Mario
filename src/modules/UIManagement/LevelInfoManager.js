@@ -16,7 +16,7 @@ const LevelInfoManager = class LevelInfoManager {
             let digitContainer = document.createElement("div");
             digitContainer.setAttribute("class", "digit");
             let image = document.createElement("img");
-            image.src = "../../../assets/digits/0.png";
+            image.src = "assets/digits/0.png";
             digitContainer.appendChild(image);
             return digitContainer;
         };
@@ -51,7 +51,7 @@ const LevelInfoManager = class LevelInfoManager {
         let digits = this.levelNumberContainer.querySelectorAll(".digit");
 
         for (let i = 0; i < 2; i++) {
-            digits[i].querySelector("img").src = `../../../assets/digits/${stringTemplate[i]}.png`;
+            digits[i].querySelector("img").src = `assets/digits/${stringTemplate[i]}.png`;
         }
     };
 
@@ -62,7 +62,7 @@ const LevelInfoManager = class LevelInfoManager {
         let digits = this.virusesNumberContainer.querySelectorAll(".digit");
 
         for (let i = 0; i < 2; i++) {
-            digits[i].querySelector("img").src = `../../../assets/digits/${stringTemplate[i]}.png`;
+            digits[i].querySelector("img").src = `assets/digits/${stringTemplate[i]}.png`;
         }
     };
 };

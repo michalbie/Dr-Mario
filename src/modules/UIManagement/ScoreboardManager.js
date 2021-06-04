@@ -14,7 +14,7 @@ const ScoreboardManager = class ScoreboardManager {
             let digitContainer = document.createElement("div");
             digitContainer.setAttribute("class", "digit");
             let image = document.createElement("img");
-            image.src = "../../../assets/digits/0.png";
+            image.src = "assets/digits/0.png";
             digitContainer.appendChild(image);
             return digitContainer;
         };
@@ -44,7 +44,7 @@ const ScoreboardManager = class ScoreboardManager {
         let digits = this.topScoreContainer.querySelectorAll(".digit");
 
         for (let i = 0; i < 7; i++) {
-            digits[i].querySelector("img").src = `../../../assets/digits/${stringTemplate[i]}.png`;
+            digits[i].querySelector("img").src = `assets/digits/${stringTemplate[i]}.png`;
         }
     };
 
@@ -55,7 +55,7 @@ const ScoreboardManager = class ScoreboardManager {
         let digits = this.currentScoreContainer.querySelectorAll(".digit");
 
         for (let i = 0; i < 7; i++) {
-            digits[i].querySelector("img").src = `../../../assets/digits/${stringTemplate[i]}.png`;
+            digits[i].querySelector("img").src = `assets/digits/${stringTemplate[i]}.png`;
         }
     };
 };

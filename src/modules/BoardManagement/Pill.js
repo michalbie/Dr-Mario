@@ -48,12 +48,12 @@ const Pill = class Pill {
         }
 
         if (this.pillCells.cell1 != null && this.pillCells.cell2 != null) {
-            image1.src = `../../../assets/${this._colors[0]}_${orientation1}.png`;
-            image2.src = `../../../assets/${this._colors[1]}_${orientation2}.png`;
+            image1.src = `assets/${this._colors[0]}_${orientation1}.png`;
+            image2.src = `assets/${this._colors[1]}_${orientation2}.png`;
         } else if (this.pillCells.cell1 != null) {
-            image1.src = `../../../assets/${this._colors[0]}_dot.png`;
+            image1.src = `assets/${this._colors[0]}_dot.png`;
         } else if (this.pillCells.cell2 != null) {
-            image2.src = `../../../assets/${this._colors[1]}_dot.png`;
+            image2.src = `assets/${this._colors[1]}_dot.png`;
         }
 
         if (this.pillCells.cell1 != null) this.pillCells.cell1.appendChild(image1);

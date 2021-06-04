@@ -19,7 +19,7 @@ const Virus = class Virus {
     colorCells = () => {
         let image = document.createElement("img");
         image.setAttribute("class", "cell-img");
-        image.src = `../../../assets/covid_${this._color}.png`;
+        image.src = `assets/covid_${this._color}.png`;
         if (this.virusCell != null) this.virusCell.appendChild(image);
     };
 };

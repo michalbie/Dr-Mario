@@ -64,7 +64,7 @@ const MagnifierManager = class MagnifierManager {
     setKnockDownAnimation = (target) => {
         let color = target.id.split("-")[0];
         this.moveIntervalPaused = true;
-        target.src = `../../../assets/magnifier/${color}/die.gif`;
+        target.src = `assets/magnifier/${color}/die.gif`;
     };
 
     canResumeMoving = () => {
@@ -86,7 +86,7 @@ const MagnifierManager = class MagnifierManager {
         let color = e.target.id.split("-")[0];
         setTimeout(() => {
             if (this.canResumeMoving()) this.moveIntervalPaused = false;
-            e.target.src = `../../../assets/magnifier/${color}/move.gif`;
+            e.target.src = `assets/magnifier/${color}/move.gif`;
         }, 4000);
 
         this.setKnockDownAnimation(e.target);
@@ -102,9 +102,9 @@ const MagnifierManager = class MagnifierManager {
     };
 
     rebornViruses = () => {
-        this.blueVirus.src = "../../../assets/magnifier/bl/move.gif";
-        this.brownVirus.src = "../../../assets/magnifier/br/move.gif";
-        this.yellowVirus.src = "../../../assets/magnifier/yl/move.gif";
+        this.blueVirus.src = "assets/magnifier/bl/move.gif";
+        this.brownVirus.src = "assets/magnifier/br/move.gif";
+        this.yellowVirus.src = "assets/magnifier/yl/move.gif";
         this.moveIntervalPaused = false;
     };
 };

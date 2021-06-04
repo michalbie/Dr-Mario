@@ -335,7 +335,7 @@ const CellsManager = class CellsManager {
         let destroyAnimationName = who == "pill" ? "o" : "x";
         let image = document.createElement("img");
         image.setAttribute("class", "cell-img");
-        image.src = `../../../assets/${color}_${destroyAnimationName}.png`;
+        image.src = `assets/${color}_${destroyAnimationName}.png`;
         cell.appendChild(image);
     };
 
