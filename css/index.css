@@ -15,12 +15,21 @@ body {
       -ms-flex-align: center;
           align-items: center;
   height: 100vh;
+  background-color: #292929;
+}
+
+#monitor {
+  position: absolute;
+  width: 850px;
+  height: auto;
+  margin-top: 10px;
 }
 
 #game-container {
   position: relative;
-  width: 1200px;
-  height: 600px;
+  width: 790px;
+  height: 410px;
+  margin-bottom: 170px;
 }
 
 #game-container #background-container {
@@ -54,7 +63,7 @@ body {
   height: 100%;
   position: absolute;
   top: 0;
-  left: 50px;
+  left: 10px;
 }
 
 #game-container #background-container .left-container #scoreboard-container {
@@ -63,7 +72,7 @@ body {
 }
 
 #game-container #background-container .left-container #scoreboard-container > img {
-  width: 300px;
+  width: 200px;
   height: auto;
 }
 
@@ -76,10 +85,10 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  top: 100px;
-  right: 30px;
-  width: 150px;
-  height: 30px;
+  top: 60px;
+  right: 20px;
+  width: 100px;
+  height: 20px;
 }
 
 #game-container #background-container .left-container #scoreboard-container #current-score-container {
@@ -91,10 +100,10 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  top: 180px;
-  right: 30px;
-  width: 150px;
-  height: 30px;
+  top: 120px;
+  right: 20px;
+  width: 100px;
+  height: 20px;
 }
 
 #game-container #background-container .left-container #magnifier-container {
@@ -103,12 +112,12 @@ body {
 }
 
 #game-container #background-container .left-container #magnifier-container #magnifier {
-  width: 250px;
+  width: 200px;
   height: auto;
 }
 
 #game-container #background-container .left-container #magnifier-container .virus-animation {
-  width: 65px;
+  width: 55px;
   height: auto;
   position: absolute;
 }
@@ -129,7 +138,7 @@ body {
   height: 100%;
   position: absolute;
   top: 0;
-  right: 50px;
+  right: 10px;
 }
 
 #game-container #background-container .right-container #doctor-container {
@@ -147,14 +156,14 @@ body {
 }
 
 #game-container #background-container .right-container #doctor-container #doctor-frame {
-  width: 250px;
+  width: 150px;
   height: auto;
 }
 
 #game-container #background-container .right-container #doctor-container #doctor-animation {
   z-index: 11;
   position: absolute;
-  width: 200px;
+  width: 140px;
   height: auto;
 }
 
@@ -214,9 +223,9 @@ body {
 #game-container #board-container > img {
   z-index: 2;
   position: absolute;
-  width: 300px;
-  height: 700px;
+  width: 200px;
   height: auto;
+  margin-bottom: 0px;
 }
 
 #game-container #board-container #game-board {
@@ -229,14 +238,14 @@ body {
       grid-template-columns: repeat(25, 1fr);
   -ms-grid-rows: (1fr)[16];
       grid-template-rows: repeat(16, 1fr);
-  margin-bottom: 80px;
-  margin-left: 420px;
+  margin-bottom: 55px;
+  margin-left: 285px;
 }
 
 #game-container #board-container #game-board .board-cell {
   background-color: transparent;
-  width: 25px;
-  height: 25px;
+  width: 17px;
+  height: 17px;
 }
 
 #game-container #board-container #game-board .board-cell .cell-img {
