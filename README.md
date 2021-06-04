@@ -1,4 +1,4 @@
-# Music-Player &middot; ![GitHub](https://img.shields.io/github/license/michalbie/Dr-Mario)
+# Dr-Mario &middot; ![GitHub](https://img.shields.io/github/license/michalbie/Dr-Mario)
 
 Old atari game clone  made in Javascript, HTML5 and SCSS. Check out live: https://michalbie.github.io/Dr-Mario/
 
