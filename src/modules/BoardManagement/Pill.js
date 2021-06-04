@@ -75,10 +75,10 @@ const Pill = class Pill {
 
     resetCellsColor = () => {
         if (this.pillCells.cell1 != null) {
-            this.pillCells.cell1.children[0].remove();
+            if (this.pillCells.cell1.children[0]) this.pillCells.cell1.children[0].remove();
         }
         if (this.pillCells.cell2 != null) {
-            this.pillCells.cell2.children[0].remove();
+            if (this.pillCells.cell2.children[0]) this.pillCells.cell2.children[0].remove();
         }
     };
 

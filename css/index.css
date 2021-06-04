@@ -163,7 +163,7 @@ body {
 #game-container #background-container .right-container #doctor-container #doctor-animation {
   z-index: 11;
   position: absolute;
-  width: 140px;
+  width: 120px;
   height: auto;
 }
 
