@@ -290,7 +290,7 @@ const PillController = class PillController {
     };
 
     animatePillThrow = () => {
-        let numberOfRolls = 20;
+        let numberOfRolls = 15;
 
         const rotateAndMoveLeft = () => {
             this.rotateLeft(true);

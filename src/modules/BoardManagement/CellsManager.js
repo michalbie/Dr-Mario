@@ -32,7 +32,7 @@ const CellsManager = class CellsManager {
     }
 
     createPreviewPill = () => {
-        this.previewPill = new Pill(this._cells, this._cells[1][23], this._cells[1][24], this, this.currentID);
+        this.previewPill = new Pill(this._cells, this._cells[3][18], this._cells[3][19], this, this.currentID); //1 - 23/24
         this.currentID++;
     };
 
